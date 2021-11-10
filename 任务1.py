@@ -1,37 +1,96 @@
-'''
-按要求定义类
-考查知识点：super关键字的使用和继承中方法的调用
-要求：
-1、定义老手机类，有品牌属性，且属性私有化，提供相应的getXxx与setXxx方法，提供无返回值的带一个Str类型参数的打电话的方法，内容为：“正在给xxx打电话...”
-2、定义新手机类，继承老手机类，重写父类的打电话的方法，内容为2句话：“语音拨号中...”、“正在给xxx打电话...”要求打印“正在给xxx打电话...”这一句调用父类的
-    方法实现，不能在子类的方法中直接打印；提供无返回值的无参数的手机介绍的方法，内容为：“品牌为：xxx的手机很好用...”
-3、定义测试类，创建新手机对象，并使用该对象，对父类中的品牌属性赋值；
-4、使用新手机对象调用手机介绍的方法；
-5、使用新手机对象调用打电话的方法；
-
-'''
 import time
-class Oldphone:
-    __brand = ''
-    def setbrand(self,brand):
-        self.__brand = brand
-    def getbrand(self):
-        return self.__brand
+from threading import Thread
+money = 0
+basket = 0
+class Cook1(Thread):
+    name = ''
+    egg = 0
+    money1 = 0
+    def run(self) -> None:
+        while time.perf_counter() <= 100:
+            global basket
+            if basket < 500:
+                basket += 1
+                self.egg += 1
+                self.money1 = self.egg *2.5
+                print(self.name,self.egg)
+            elif basket >= 500:
+                time.sleep(3)
+                if basket < 500:
+                    continue
+                else:
+                    print('满了')
+        print(self.name,'做了',self.egg,'个蛋挞，赚了',self.money1,'元')
 
-    def call(self,name):
-        print('正在给',name,'打电话...')
+class user(Thread):
+    name = ''
+    money2 =5000
+    egg = 0
+    count = 0
+    def run(self) -> None:
+        while time.perf_counter() <= 100:
+            global basket
+            global money
+            if self.money2 > 0:
+                if basket > 0:
+                    self.money2 -= 3
+                    self.egg += 1
+                    basket -= 1
+                    money += 3
+                    print(self.name,self.money2)
+                elif basket == 0:
+                    print('没了')
+                    time.sleep(4)
+            else:
+                print('没钱了')
+                break
+        print(self.name,'还剩',self.money2)
+        # print('总销售额为',money)
+# class Boos(Thread):
+#     money = 0
+#     def run(self) -> None:
+#         start = time.time()
+#         while True:
+#             end = time.time()
+#             if int(end -start) ==3:
+#                 print('时间到了')
+#                 break
+        # while True:
+        #     global basket
+        #
+        #     if time.perf_counter() >= 10:
+        #         cmoney =  Cook1.egg * 2.5
+        #
+        #         print(cmoney,self.money)
+        #         break
+        #     else:
+        #         self.money = user.egg * 3
 
-class Newphone(Oldphone):
-    def call(self,name):
-        print('语音拨号中')
-        for i in range(4):
-            print('.',end='')
-            time.sleep(1)
-        super().call(name)
-    def show(self):
-        print('品牌为',self.getbrand(),'的手机很好用。。')
+c =Cook1()
+c1 =Cook1()
+c2 =Cook1()
+u =user()
+u1 =user()
+u2 =user()
+u3 =user()
+u4 =user()
+u5 =user()
+u.name = 'a1'
+u1.name = 'a2'
+u2.name = 'a3'
+u3.name = 'a4'
+u4.name = 'a5'
+u5.name = 'a6'
 
-n = Newphone()
-n.setbrand('锤子')
-n.show()
-n.call('老二')
+c.name = '张三'
+c1.name = '李四'
+c2.name = '王五'
+c.start()
+c1.start()
+c2.start()
+u.start()
+u1.start()
+u2.start()
+u3.start()
+u4.start()
+u5.start()
